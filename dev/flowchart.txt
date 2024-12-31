@@ -1,0 +1,85 @@
+Teacher Attendance Management System Flowchart
+==============================================
+
+ADMIN WORKFLOW:
+1. Admin Login
+   --> Navigate to Admin Dashboard
+
+2. Upload Timetable (Excel File)
+   --> Check File Validity
+       --> If Valid:
+           --> Parse and Save the Data to the Database
+       --> If Invalid:
+           --> Show Error Message
+           --> Retry File Upload
+
+3. Manage Teacher Accounts
+   --> Add/Edit Teacher Information
+   --> Reset Teacher Password
+
+4. Logout or Close Admin Panel
+   --> Admin Workflow Ends
+
+
+TEACHER WORKFLOW:
+1. Teacher Login
+   --> Fetch Weekly Timetable from Database
+
+2. Check Current Time
+   --> Is a Class in Progress?
+       --> If No:
+           --> Disable All Cells (Greyed Out)
+       --> If Yes:
+           --> Highlight and Blink Current Class Cell (Yellow)
+
+3. Teacher Marks Attendance
+   --> If Yes:
+       --> Turn Current Class Cell Green
+       --> Log Teacher as Present
+   --> If No:
+       --> Wait 5 Minutes
+       --> Send Reminder Notification (and Vibration)
+       --> Wait Another 10 Minutes
+           --> If Still No Response:
+               --> Turn Current Class Cell Red
+               --> Log Teacher as Absent
+
+4. Repeat Until the End of the Day
+   --> Fetch Next Class or Wait for the Day to End
+
+5. Logout or Close App
+   --> Teacher Workflow Ends
+
+
+DATABASE STRUCTURE:
+1. Teachers Table
+   - Fields: TeacherID, Name, Email, Password
+
+2. Timetable Table
+   - Fields: TeacherID, Day, StartTime, EndTime, Classroom, Subject
+
+3. Attendance Table
+   - Fields: TeacherID, Date, Time, Status (Present/Absent)
+
+4. Admin Table
+   - Fields: AdminID, Email, Password
+
+
+EXCEL FILE FORMAT (Timetable Upload):
+-------------------------------------
+Columns in the Excel file should follow this format:
+- TeacherID: Unique ID for the teacher (e.g., T001)
+- Day: Day of the week (e.g., Monday, Tuesday, etc.)
+- StartTime: Start time of the class (e.g., 09:00)
+- EndTime: End time of the class (e.g., 10:00)
+- Classroom: Location of the class (e.g., Room 5.2)
+- Subject: Name of the subject (e.g., Mathematics)
+
+Example:
+-------------------------------------
+| TeacherID | Day       | StartTime | EndTime | Classroom | Subject     |
+|-----------|-----------|-----------|---------|-----------|-------------|
+| T001      | Monday    | 09:00     | 10:00   | 5.2       | Mathematics |
+| T001      | Monday    | 11:00     | 12:00   | 3.1       | Physics     |
+| T001      | Tuesday   | 14:00     | 15:00   | 4.5       | Chemistry   |
+-------------------------------------
